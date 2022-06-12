@@ -9,6 +9,7 @@ import {
   findAndUpdateProduct,
   findProduct,
 } from "../service/product.service";
+import logger from "../utils/logger";
 
 export async function createProductHandler(
   req: Request<{}, {}, CreateProductInput["body"]>,
@@ -67,17 +68,14 @@ export async function deleteProductHandler(
   req: Request<UpdateProductInput["params"]>,
   res: Response
 ) {
-  const userId = res.locals.user._id;
   const productId = req.params.productId;
 
   const product = await findProduct({ productId });
 
+  logger.info("FOUND PRODUCT", product)
+
   if (!product) {
     return res.sendStatus(404);
-  }
-
-  if (String(product.user) !== userId) {
-    return res.sendStatus(403);
   }
 
   await deleteProduct({ productId });

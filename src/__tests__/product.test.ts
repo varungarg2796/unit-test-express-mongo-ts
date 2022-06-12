@@ -61,6 +61,27 @@ describe("product", () => {
     });
   });
 
+  describe("delete product route", () => {
+    describe("given the product does not exist", () => {
+      it("should return a 403", async () => {
+        const productId = "product-113";
+        await supertest(app).delete(`/api/products/${productId}`).expect(404);
+      });
+    });
+
+    describe("given the product does exist", () => {
+      it("should return a 200 status and delete the product", async () => {
+        // @ts-ignore
+        const product = await createProduct(productPayload);
+        const { body, statusCode } = await supertest(app).delete(
+          `/api/products/${product.productId}`
+        );
+        expect(statusCode).toBe(200);
+        expect(body).toEqual({});
+      });
+    });
+  });
+
   describe("create product route", () => {
     describe("given the user is not logged in", () => {
       it("should return a 403", async () => {

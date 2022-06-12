@@ -1,6 +1,7 @@
 import { Express, Request, Response } from "express";
 import {
   createProductHandler,
+  deleteProductHandler,
   getProductHandler,
   updateProductHandler,
 } from "./controller/product.controller";
@@ -56,8 +57,8 @@ function routes(app: Express) {
 
   app.delete(
     "/api/products/:productId",
-    [requireUser, validateResource(deleteProductSchema)],
-    getProductHandler
+    [validateResource(deleteProductSchema)],
+    deleteProductHandler
   );
 }
 
