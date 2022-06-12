@@ -1,18 +1,18 @@
-import express from 'express';
-import config  from 'config';
-import connect from './utils/connect';
-import logger from './utils/logger';
-import routes from './routes';
+import express from "express";
+import config from "config";
+import connect from "./utils/connect";
+import logger from "./utils/logger";
+import routes from "./routes";
+
+const port = config.get<number>("port");
 
 const app = express();
-const port = config.get<number>('port');
+
 
 app.listen(port, async () => {
-    logger.info(`listening on port ${port}`);
-    await connect();
+  logger.info(`App is running at http://localhost:${port}`);
 
-    routes(app);
-})
+  await connect();
 
-
-console.log("hello world")
+  routes(app);
+});
